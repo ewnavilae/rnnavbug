@@ -10,7 +10,7 @@ function EmptyScreen() {
   useNavigation()
   return (
     <View>
-      <Text>teste</Text>
+      <Text>EMPTY SCREEN</Text>
     </View>
    )
 }
