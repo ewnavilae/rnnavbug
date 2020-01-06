@@ -1,0 +1,43 @@
+diff --git a/node_modules/@react-navigation/material-bottom-tabs/src/views/MaterialBottomTabView.tsx b/node_modules/@react-navigation/material-bottom-tabs/src/views/MaterialBottomTabView.tsx
+index 6b87006..e5d4a94 100644
+--- a/node_modules/@react-navigation/material-bottom-tabs/src/views/MaterialBottomTabView.tsx
++++ b/node_modules/@react-navigation/material-bottom-tabs/src/views/MaterialBottomTabView.tsx
+@@ -15,6 +15,7 @@ type Props = MaterialBottomTabNavigationConfig & {
+   state: TabNavigationState;
+   navigation: MaterialBottomTabNavigationHelpers;
+   descriptors: MaterialBottomTabDescriptorMap;
++  onTabPress?
+ };
+ 
+ type Scene = { route: { key: string } };
+@@ -23,6 +24,7 @@ export default function MaterialBottomTabView({
+   state,
+   navigation,
+   descriptors,
++  onTabPress,
+   ...rest
+ }: Props) {
+   const { dark, colors } = useTheme();
+@@ -89,12 +91,16 @@ export default function MaterialBottomTabView({
+         descriptors[route.key].options.tabBarAccessibilityLabel
+       }
+       getTestID={({ route }) => descriptors[route.key].options.tabBarTestID}
+-      onTabPress={({ route }) => {
+-        navigation.emit({
+-          type: 'tabPress',
+-          target: route.key,
+-        });
+-      }}
++      onTabPress={ ( { route } ) => {
++        if ( !onTabPress || onTabPress( route ) !== false ) {
++          navigation.emit( {
++            type: "tabPress",
++            target: route.key,
++          } )
++        } else {
++          return false
++        }
++      } }
+     />
+   );
+ }
